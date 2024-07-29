@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+       .card {
+  margin: 0 auto;
+  padding: 2em;
+  width: 300px;
+  background: #000103;
+  text-align: center;
+  border-radius: 10px;
+  position: relative;
+  color: white;
+}
+
+@property --angle{
+        syntax: "<angle>";
+        initial-value: 0deg;
+        inherits: false;
+}
+.card::after, .card::before{
+    
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+   background-image: conic-gradient(from var(--angle), transparent 70%,  rgb(152, 28, 163));
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1;
+    padding: 3px;
+    border-radius: 10px;
+    animation: 3s spin linear infinite;
+}
+.card::before{
+
+filter: blur(1.5rem);
+opacity: 1;
+}
+
+@keyframes spin{
+from{
+        --angle: 0deg;
+}
+to{
+        --angle: 360deg;
+}
+}
+span {
+    font-size: 50px;
+}
+    </style>
+</head>
+<body background="background.jpg">
+    <div class="card">
+           <span class="H"></span>
+           <span class="M"></span> <br>
+           <span class="date"></span>
+
+           <script>
+            function myClock(){
+                var myDate = new Date();
+                var hr,min = (myDate.getMinutes() < 10) ?  "0" + myDate.getMinutes() : myDate.getMinutes(),
+                sec = (myDate.getSeconds() < 10) ? "0" + myDate.getSeconds() : myDate.getSeconds(),
+                M = (myDate.getHours() >=12 ) ? "PM" : "AM";
+
+                if(myDate.getHours() == 0){
+                    hr = 12;
+                }else if(myDate.getHours() >12){
+                    hr = myDate.getHours() -12;
+                }else{
+                    hr = myDate.getHours();
+                }
+
+                var currentTime = hr + ":" + min + ":" + sec + ":"; 
+
+                document.getElementsByClassName("H")[0].innerHTML = currentTime;
+                document.getElementsByClassName("M")[0].innerHTML = M;
+
+                var myDay = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+
+                  myMonth = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+
+                  day = myDate.getDate();
+
+                 var currentDate = myDay[myDate.getDay()] + ", " + myMonth[myDate.getMonth()] +" " + day ;
+
+                 document.getElementsByClassName("date")[0].innerHTML = currentDate;
+            }
+
+            myClock();
+
+            setInterval(function(){
+                myClock();
+            }, 1000);
+           </script>
+    </div>
+</body>
+</html>
